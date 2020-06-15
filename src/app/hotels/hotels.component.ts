@@ -4,6 +4,7 @@ import {Subscription} from 'rxjs';
 import {HotelModel} from '../_models/hotel.model';
 import {TrackModel} from '../_models/track.model';
 import {PageEvent} from '@angular/material/paginator';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-hotels',
@@ -16,7 +17,8 @@ export class HotelsComponent implements OnInit, OnDestroy {
   trackData: TrackModel[];
   totalHotels: number;
   subscriptions: Subscription[] = [];
-  constructor(private hotelService: HotelService) {
+  constructor(private router: Router,
+              private hotelService: HotelService) {
     this.hotels = [];
   }
 
@@ -52,6 +54,8 @@ export class HotelsComponent implements OnInit, OnDestroy {
     // Increase view count
     this.hotelService
       .updateTrackData(hotelId, 'viewCount');
+    // Now navigate to hotel page
+    this.router.navigate([hotelId]).then(r => null);
   }
 
   onPageChange(page: PageEvent) {

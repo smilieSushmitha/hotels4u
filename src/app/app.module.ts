@@ -9,12 +9,14 @@ import { HeaderComponent } from './header/header.component';
 import { HotelsComponent } from './hotels/hotels.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
+import { HotelComponent } from './hotels/hotel/hotel.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    HotelsComponent
+    HotelsComponent,
+    HotelComponent
   ],
   imports: [
     BrowserModule,
