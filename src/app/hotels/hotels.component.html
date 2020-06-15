@@ -1,49 +1,49 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-md-9 col-sm-12">
-      <h3>Card List of Hotels</h3>
-
-      <mat-card class="hotel-list-card mb-3" *ngFor="let hotel of hotels">
-        <section class="row">
-          <div class="col-5">
-            <img class="p-3" mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-          </div>
-          <div class="col-7">
-            <mat-card-header>
-              <mat-card-title>Shiba Inu</mat-card-title>
-              <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-content class="ml-3">
-              <p>
-                The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-                A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-                bred for hunting.
-              </p>
-            </mat-card-content>
-            <mat-card-actions class="ml-3">
-              <button mat-flat-button color="primary">LIKE</button>
-              <button mat-flat-button color="accent" class="ml-2">SHARE</button>
-            </mat-card-actions>
-          </div>
-        </section>
-      </mat-card>
-
-
-
-    </div>
-    <div class="col-md-3 col-sm-12">
-      <h3>Card List of Hotels Recomendation</h3>
-
-      <mat-card>
-        <img mat-card-image
-             src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-             alt="Photo of a Shiba Inu">
-        <mat-card-header>
-          <mat-card-title>Shiba Inu</mat-card-title>
-          <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-        </mat-card-header>
-      </mat-card>
-
-    </div>
+<div class="row mt-3">
+  <div class="col-md-9 col-sm-12">
+    <h3>All Hotels</h3>
+    <mat-card class="hotel-list-card mb-3"
+              *ngFor="let hotel of hotels"
+              (click)="onHotelClicked(hotel.hotelId)" >
+      <section class="card-wrapper">
+        <div class="photo-section">
+          <img src="{{hotel.photoUrl}}"
+               alt="{{hotel.hotelName}}">
+        </div>
+        <div class="description-section pt-3">
+          <mat-card-header>
+            <mat-card-title>{{hotel.hotelName}}</mat-card-title>
+            <mat-card-subtitle>{{hotel.regionName}}, {{hotel.regionParent}} | {{hotel.countryName}}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content class="ml-3">
+            <a href="https://www.google.com/maps/search/?api=1&query={{hotel.latitude}},{{hotel.longitude}}"
+               target="_blank">{{hotel.street}}</a>
+            <p class="mt-4">
+              <ng-container *ngFor="let r of [1,2,3,4,5]">
+                <mat-icon *ngIf="hotel.rating >= r" color="accent">star</mat-icon>
+                <mat-icon *ngIf="hotel.rating < r" color="accent">star_border</mat-icon>
+              </ng-container>
+            </p>
+            <h1 class="rupee">{{hotel.price}} &#x20B9;</h1>
+            <p class="m-0">price exclusive of taxes per night</p>
+          </mat-card-content>
+        </div>
+      </section>
+    </mat-card>
+  </div>
+  <div class="col-md-3 col-sm-12">
+    <h3>Recommendation</h3>
+    <mat-card class="hotel-recommendation-card mb-3"
+              *ngFor="let rec of hotels">
+    </mat-card>
   </div>
 </div>
+
+<mat-divider class="mt-3"></mat-divider>
+<mat-paginator showFirstLastButtons
+               [length]="totalHotels"
+               [pageSize]="10"
+               [pageSizeOptions]="[5, 10, 25, 100]"
+               (page)="onPageChange($event)">
+</mat-paginator>
+<mat-divider class="mb-3"></mat-divider>
+
