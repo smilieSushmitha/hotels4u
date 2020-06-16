@@ -16,14 +16,14 @@
           </mat-card-header>
           <mat-card-content class="ml-3">
             <a href="https://www.google.com/maps/search/?api=1&query={{hotel.latitude}},{{hotel.longitude}}"
-               target="_blank">{{hotel.street}}</a>
+               target="_blank" (click)="$event.stopPropagation()">{{hotel.street}}</a>
             <p class="mt-4">
               <ng-container *ngFor="let r of [1,2,3,4,5]">
                 <mat-icon *ngIf="hotel.rating >= r" color="accent">star</mat-icon>
                 <mat-icon *ngIf="hotel.rating < r" color="accent">star_border</mat-icon>
               </ng-container>
             </p>
-            <h1 class="rupee">{{hotel.price}} &#x20B9;</h1>
+            <h1 class="rupee">&#x20B9; {{hotel.price}}</h1>
             <p class="m-0">price exclusive of taxes per night</p>
           </mat-card-content>
         </div>
@@ -32,9 +32,21 @@
   </div>
   <div class="col-md-3 col-sm-12">
     <h3>Recommendation</h3>
-    <mat-card class="hotel-recommendation-card mb-3"
-              *ngFor="let rec of hotels">
-    </mat-card>
+    <p  *ngIf="!recommendations.length">
+      <strong>No recommendation yet!</strong><br>
+      Please keep browsing the hotels, we will show you the best deals here.</p>
+    <ng-container *ngIf="recommendations.length">
+      <mat-card class="hotel-recommendation-card mb-3"
+                *ngFor="let rec of recommendations"
+                (click)="onHotelClicked(rec.hotelId)" >
+        <img src="{{rec.photoUrl}}" alt="{{rec.hotelName}}">
+        <div class="tag-wrapper">
+          <span class="tag">&#x20B9; {{rec.price}}</span>
+        </div>
+        <h2>{{rec.hotelName}}</h2>
+        <p>{{rec.regionName}}, {{rec.regionParent}} | {{rec.countryName}}</p>
+      </mat-card>
+    </ng-container>
   </div>
 </div>
 

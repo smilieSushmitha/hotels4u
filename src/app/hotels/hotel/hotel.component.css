@@ -1,0 +1,49 @@
+h3 {
+  font-weight: lighter;
+  text-transform: lowercase;
+}
+
+.card-wrapper {
+  display: flex;
+}
+
+.display-section {
+  flex: 316px 0 0;
+}
+
+.display-section img {
+  height: 225px;
+  width: 300px;
+}
+
+.form-section {
+  flex: 1;
+  padding-left: 1rem;
+}
+
+.rupee {
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.track-wrapper {
+  display: inline-flex;
+  height: 3rem;
+}
+
+.each-box {
+  text-align: center;
+  width: 4.25rem;
+}
+
+.each-box h3 {
+  margin: 0;
+  font-weight: 400;
+  font-size: 2rem;
+}
+
+.each-box p {
+  font-size: 0.75rem;
+  font-weight: lighter;
+}

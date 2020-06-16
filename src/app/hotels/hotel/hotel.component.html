@@ -1,5 +1,121 @@
-<pre>{{hotelId}}</pre>
+<div class="card-wrapper mt-3">
+  <section class="display-section">
+    <mat-card *ngIf="hotel">
+      <img src="{{hotel.photoUrl}}"
+           alt="{{hotel.hotelName}}">
 
-<pre>{{hotel | json}}</pre>
+      <mat-card-header class="mt-3">
+        <mat-card-title>{{hotel.hotelName}}</mat-card-title>
+        <mat-card-subtitle>{{hotel.regionName}}, {{hotel.regionParent}} | {{hotel.countryName}}</mat-card-subtitle>
+      </mat-card-header>
 
-<pre>{{trackData | json}}</pre>
+      <mat-card-content class="ml-3">
+        <a href="https://www.google.com/maps/search/?api=1&query={{hotel.latitude}},{{hotel.longitude}}"
+           target="_blank">{{hotel.street}}</a>
+        <p class="mt-4">
+          <ng-container *ngFor="let r of [1,2,3,4,5]">
+            <mat-icon *ngIf="hotel.rating >= r" color="accent">star</mat-icon>
+            <mat-icon *ngIf="hotel.rating < r" color="accent">star_border</mat-icon>
+          </ng-container>
+        </p>
+        <h1 class="rupee">&#x20B9; {{hotel.price}}</h1>
+        <p class="m-0">price exclusive of taxes per night</p>
+      </mat-card-content>
+
+      <div class="track-wrapper m-3">
+        <mat-divider vertical></mat-divider>
+        <div class="each-box">
+          <h3>{{trackData.trackData.viewCount}}</h3>
+          <p>views</p>
+        </div>
+        <mat-divider vertical></mat-divider>
+        <div class="each-box">
+          <h3>{{trackData.trackData.draftsCount}}</h3>
+          <p>draft</p>
+        </div>
+        <mat-divider vertical></mat-divider>
+        <div class="each-box">
+          <h3>{{trackData.trackData.bookingCount}}</h3>
+          <p>booked</p>
+        </div>
+        <mat-divider vertical></mat-divider>
+      </div>
+
+      <mat-card-actions class="m-3">
+        <button mat-flat-button color="accent"
+                [disabled]="showBookForm"
+                (click)="onBookClicked()">Book Now!</button>
+      </mat-card-actions>
+    </mat-card>
+  </section>
+
+  <section class="form-section">
+    <mat-card *ngIf="showBookForm">
+      <mat-card-header class="mt-3 mb-3">
+        <mat-card-title>Book Hotel: {{hotel.hotelName}}</mat-card-title>
+      </mat-card-header>
+      <mat-divider></mat-divider>
+      <mat-card-content>
+        <div class="row pt-3 pl-3 pr-3">
+          <form [formGroup]="bookFormGroup">
+            <mat-form-field class="col-12 mt-3" appearance="outline">
+              <mat-label>Hotel</mat-label>
+              <input matInput placeholder="Hotel" formControlName="hotel" readonly>
+            </mat-form-field>
+
+            <mat-form-field class="col-lg-6 col-md-12" appearance="outline">
+              <mat-label>Check In</mat-label>
+              <input matInput [min]="minDate" formControlName="checkIn" [matDatepicker]="checkInPicker">
+              <mat-datepicker-toggle matSuffix [for]="checkInPicker"></mat-datepicker-toggle>
+              <mat-datepicker #checkInPicker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field class="col-lg-6 col-md-12" appearance="outline">
+              <mat-label>Check Out</mat-label>
+              <input matInput [min]="minDate" formControlName="checkOut" [matDatepicker]="checkoutPicker">
+              <mat-datepicker-toggle matSuffix [for]="checkoutPicker"></mat-datepicker-toggle>
+              <mat-datepicker #checkoutPicker></mat-datepicker>
+            </mat-form-field>
+
+
+            <mat-form-field class="col-lg-4 col-md-12" appearance="outline">
+              <mat-label>Rooms</mat-label>
+              <mat-select formControlName="rooms">
+                <mat-option *ngFor="let room of [1,2,3,4,5,6,7,8]"
+                            [value]="room">
+                  {{room}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="col-lg-4 col-md-12" appearance="outline">
+              <mat-label>Adults(12+ yr)</mat-label>
+              <mat-select formControlName="adults">
+                <mat-option *ngFor="let adult of [1,2,3,4,5,6,7,8,9]"
+                [value]="adult">
+                  {{adult}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="col-lg-4 col-md-12" appearance="outline">
+              <mat-label>Children(0-12 yr)</mat-label>
+              <mat-select formControlName="children">
+                <mat-option *ngFor="let child of [1,2,3,4,5]"
+                            [value]="child">
+                  {{child}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </form>
+        </div>
+      </mat-card-content>
+      <mat-card-actions class="ml-3 mb-3">
+        <button mat-flat-button color="warn"
+                class="mr-2"
+                (click)="showBookForm = false">Cancel</button>
+        <button mat-flat-button color="primary"
+                [disabled]="!bookFormGroup.valid"
+                (click)="onBookingConfirmed()">Confirm Booking!</button>
+      </mat-card-actions>
+    </mat-card>
+  </section>
+</div>

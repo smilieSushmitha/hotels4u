@@ -14,17 +14,18 @@ import {Router} from '@angular/router';
 export class HotelsComponent implements OnInit, OnDestroy {
   rawHotels: HotelModel[];
   hotels: HotelModel[];
-  trackData: TrackModel[];
+  recommendations: HotelModel[];
   totalHotels: number;
   subscriptions: Subscription[] = [];
   constructor(private router: Router,
               private hotelService: HotelService) {
     this.hotels = [];
+    this.recommendations = [];
   }
 
   ngOnInit(): void {
     this.loadHotels();
-    this.loadTrackData();
+    this.loadRecommendations();
   }
 
   loadHotels() {
@@ -39,12 +40,11 @@ export class HotelsComponent implements OnInit, OnDestroy {
       });
   }
 
-  loadTrackData() {
+  loadRecommendations() {
     this.subscriptions[1] = this.hotelService
-      .trackDataObserver
+      .recommendationsObserver
       .subscribe(res => {
-        this.trackData = res;
-        console.table(res);
+        this.recommendations = res.slice(0, 10);
       }, err => {
         console.error(err);
       });
